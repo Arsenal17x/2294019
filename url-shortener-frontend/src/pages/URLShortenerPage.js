@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, TextField, Button, Box, Paper, CircularProgress, Link as MuiLink } from '@mui/material';
-import { Log } from '../logging-middleware/logger'; // Import your Log function
+import Log from '../logging-middleware/logger';// Import your Log function
 import axios from 'axios';
 const URLShortenerPage = () => {
     const [inputs, setInputs] = useState([{ longUrl: '', customCode: '', validity: '' }]);
@@ -25,7 +25,7 @@ const URLShortenerPage = () => {
         try {
             new URL(url);
             // A simple regex to ensure it has a domain.
-            return /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/.test(url);
+            return /^(https?:\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/.test(url);
         } catch (_) {
             return false;
         }
