@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Log } from '../logging-middleware/logger';
+import { Log } from '../logging-middleware/src/logger';
 import { Typography, CircularProgress, Container, Box } from '@mui/material';
 
 const RedirectPage = () => {
