@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, TextField, Button, Box, Paper, CircularProgress, Link as MuiLink } from '@mui/material';
-import Log from '../logging-middleware/logger';// Import your Log function
 import axios from 'axios';
 const URLShortenerPage = () => {
     const [inputs, setInputs] = useState([{ longUrl: '', customCode: '', validity: '' }]);
@@ -8,7 +7,7 @@ const URLShortenerPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     useEffect(() => {
-        Log("frontend", "info", "page", "User landed on the URL Shortener page.");
+        // Page load logic (no logging)
     }, []);
     const handleInputChange = (index, field, value) => {
         const newInputs = [...inputs];
@@ -18,7 +17,6 @@ const URLShortenerPage = () => {
     const addUrlInput = () => {
         if (inputs.length < 5) {
             setInputs([...inputs, { longUrl: '', customCode: '', validity: '' }]);
-            Log("frontend", "info", "component", "User clicked 'Add another URL' button.");
         }
     };
     const validateUrl = (url) => {
@@ -33,11 +31,8 @@ const URLShortenerPage = () => {
     const handleSubmit = async () => {
         setError('');
         setResults([]);
-        Log("frontend", "info", "component", "User clicked 'Shorten URLs' button.");
         for (const input of inputs) {
             if (!input.longUrl || !validateUrl(input.longUrl)) {
-                const msg = `Validation failed for URL: ${input.longUrl || 'empty'}`;
-                Log("frontend", "warn", "validation", msg);
                 setError("One or more URLs are invalid. Please check your inputs.");
                 return;
             }
@@ -55,18 +50,15 @@ const URLShortenerPage = () => {
                     ...(input.customCode && { shortCode: input.customCode }),
                     ...(input.validity && { validity: parseInt(input.validity, 10) }),
                 };
-                Log("frontend", "info", "api", `Sending request for ${input.longUrl}`);
                 return axios.post(API_URL, payload);
             });
 
             const responses = await Promise.all(promises);
             const newResults = responses.map(res => res.data);
             setResults(newResults);
-            Log("frontend", "info", "api", "Successfully created all short links.");
 
         } catch (err) {
             const errorMsg = err.response?.data?.message || "An unexpected error occurred.";
-            Log("frontend", "error", "api", `API Error: ${errorMsg}`);
             setError(errorMsg);
         } finally {
             setLoading(false);

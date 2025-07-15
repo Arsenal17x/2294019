@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Accordion, AccordionSummary, AccordionDetails, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Log from '../logging-middleware/logger';
 import axios from 'axios';
 
 const StatisticsPage = () => {
@@ -11,17 +10,13 @@ const StatisticsPage = () => {
 
   useEffect(() => {
     const fetchStats = async () => {
-      Log("frontend", "info", "page", "User landed on the Statistics page.");
       try {
         // NOTE: Replace with your actual backend statistics endpoint
         const API_URL = 'http://your-backend-api.com/api/stats';
-        Log("frontend", "info", "api", "Fetching URL statistics.");
         const response = await axios.get(API_URL);
         setStats(response.data);
-        Log("frontend", "info", "api", "Successfully fetched statistics.");
       } catch (err) {
         const errorMsg = "Could not load statistics.";
-        Log("frontend", "error", "api", `Failed to fetch stats: ${err.message}`);
         setError(errorMsg);
       } finally {
         setLoading(false);

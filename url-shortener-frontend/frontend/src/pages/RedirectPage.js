@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Log from '../logging-middleware/logger';
 import { Typography, CircularProgress, Container, Box } from '@mui/material';
 
 const RedirectPage = () => {
@@ -13,7 +12,6 @@ const RedirectPage = () => {
     useEffect(() => {
         if (shortCode) {
             const performRedirect = async () => {
-                Log("frontend", "info", "page", `Redirect attempt for code: ${shortCode}`);
                 try {
                     // NOTE: Replace with your actual backend redirect endpoint
                     const API_URL = `http://your-backend-api.com/api/${shortCode}`;
@@ -21,14 +19,12 @@ const RedirectPage = () => {
                     const { longUrl } = response.data;
 
                     if (longUrl) {
-                        Log("frontend", "info", "page", `Success. Redirecting to: ${longUrl}`);
                         window.location.href = longUrl;
                     } else {
                         throw new Error("API did not return a longUrl.");
                     }
                 } catch (err) {
                     const errorMsg = "This short link is invalid or has expired.";
-                    Log("frontend", "error", "api", `Redirect failed for ${shortCode}: ${err.message}`);
                     setMessage(errorMsg);
                     setIsError(true);
                 }
