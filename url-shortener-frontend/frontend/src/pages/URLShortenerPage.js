@@ -40,13 +40,12 @@ const URLShortenerPage = () => {
 
         setLoading(true);
         try {
-            // NOTE: Replace with your actual backend URL shortener endpoint
-            const API_URL = 'http://your-backend-api.com/api/shorten';
+
+            const API_URL = 'http://localhost:3000/api/shorten';;
 
             const promises = inputs.map(input => {
                 const payload = {
                     longUrl: input.longUrl,
-                    // Only include optional fields if they have a value
                     ...(input.customCode && { shortCode: input.customCode }),
                     ...(input.validity && { validity: parseInt(input.validity, 10) }),
                 };
