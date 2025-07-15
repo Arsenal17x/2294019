@@ -20,13 +20,7 @@ const URLShortenerPage = () => {
         }
     };
     const validateUrl = (url) => {
-        try {
-            new URL(url);
-            // A simple regex to ensure it has a domain.
-            return /^(https?:\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/.test(url);
-        } catch (_) {
-            return false;
-        }
+        return /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/.test(url);
     };
     const handleSubmit = async () => {
         setError('');
@@ -41,7 +35,7 @@ const URLShortenerPage = () => {
         setLoading(true);
         try {
 
-            const API_URL = 'http://localhost:3000/api/shorten';;
+            const API_URL = 'http://localhost:5000/api/shorten';;
 
             const promises = inputs.map(input => {
                 const payload = {
